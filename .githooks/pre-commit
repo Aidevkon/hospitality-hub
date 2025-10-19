@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Pre-commit hook: prevent committing node_modules or large files (>10MB)
+ROOT_DIR=$(git rev-parse --show-toplevel)
+node "$ROOT_DIR/scripts/check-large-files.js"
+RC=$?
+if [ $RC -ne 0 ]; then
+  echo "\nPre-commit checks failed; aborting commit."
+  exit $RC
+fi
+exit 0
